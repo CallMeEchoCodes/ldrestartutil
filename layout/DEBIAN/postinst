@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [[ -e /usr/libexec/ldrestartutil ]]; then
+    chown root:wheel /usr/libexec/ldrestartutil
+    chmod 6755 /usr/libexec/ldrestartutil
+    exit 0
+elif [[ -e /var/jb/usr/libexec/ldrestartutil ]]; then
+    chown root:wheel /var/jb/usr/libexec/ldrestartutil
+    chmod 6755 /var/jb/usr/libexec/ldrestartutil
+    exit 0
+else
+    echo "something is very VERY wrong"
+    exit 1
+fi

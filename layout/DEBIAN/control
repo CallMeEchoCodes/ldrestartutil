@@ -1,0 +1,9 @@
+Package: dev.callmeecho.ldrestartutil
+Name: ldrestartutil
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: An easy way to run LDRestart as root. Made for tweak developers.
+Maintainer: CallMeEcho
+Author: CallMeEcho
+Section: System
+Depends: ${LIBSWIFT}
