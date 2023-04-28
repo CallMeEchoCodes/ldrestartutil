@@ -13,15 +13,11 @@ jobs:
       - name: Setup Theos
         uses: Randomblock1/theos-action@v1
 
-      - name: Build Deb (rootrw)
+      - name: Build DEBs
         run: |
-          export THEOS=~/theos
-          gmake clean package FINALPACKAGE=1
-
-      - name: Build Deb (rootless)
-        run: |
-            export THEOS=~/theos
-            gmake clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+          rm -f packages/*
+          gmake package FINALPACKAGE=1
+          gmake package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
       - name: Attach Deb To Release
         run: |
