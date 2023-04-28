@@ -1,0 +1,34 @@
+name: Build
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-12
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@main
+      - name: Set up Theos
+        run: |
+          brew install ldid make xz
+          git clone --recursive https://github.com/theos/theos.git ~/.theos
+
+      - name: Build Deb (rootrw)
+        run: |
+          export THEOS=~/.theos
+          gmake clean package FINALPACKAGE=1
+
+      - name: Build Deb (rootless)
+        run: |
+            export THEOS=~/.theos
+            gmake clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
+
+      - name: Attach Deb To Release
+        run: |
+          set -x
+          TAG="${GITHUB_REF##*/}-${GITHUB_SHA:0:7}"
+          gh release create "$TAG" --draft --title "Draft Release"
+          gh release upload "$TAG" packages/*.deb
