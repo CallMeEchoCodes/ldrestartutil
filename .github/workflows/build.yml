@@ -13,13 +13,6 @@ jobs:
       - name: Setup Theos
         uses: Randomblock1/theos-action@v1
 
-      - name: Fix ldid (Temporary)
-        run: |
-          git clone --depth=1 https://github.com/ProcursusTeam/ldid
-          cd ldid
-          make install PREFIX=""
-          mv bin/* ~/theos/toolchain/linux/iphone/bin/
-
       - name: Build Deb (rootrw)
         run: |
           export THEOS=~/theos
