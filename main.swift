@@ -1,7 +1,5 @@
 import Foundation
 
-let CMDLineArgs = Array(CommandLine.arguments.dropFirst()).joined(separator: " ")
-
 // this REQUIRES you to "chmod 6755" 
 setuid(0)
 setgid(0)
