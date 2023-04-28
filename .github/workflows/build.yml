@@ -10,20 +10,24 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@main
-      - name: Set up Theos
+      - name: Setup Theos
+        uses: Randomblock1/theos-action@v1
+
+      - name: Fix ldid (Temporary)
         run: |
-          brew install ldid make xz
-          git clone --recursive https://github.com/theos/theos.git ~/.theos
+          git clone --depth=1 https://github.com/ProcursusTeam/ldid
+          cd ldid
+          make install PREFIX=""
+          mv bin/* ~/theos/toolchain/linux/iphone/bin/
 
       - name: Build Deb (rootrw)
         run: |
-          export THEOS=~/.theos
+          export THEOS=~/theos
           gmake clean package FINALPACKAGE=1
 
       - name: Build Deb (rootless)
         run: |
-            export THEOS=~/.theos
+            export THEOS=~/theos
             gmake clean package FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless
 
       - name: Attach Deb To Release
